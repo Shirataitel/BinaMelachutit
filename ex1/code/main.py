@@ -37,7 +37,7 @@ def dispatch(argv) :
     if argv[1] == 'ucs' :
         path, ucstime = find_ucs_rout(source, target)
     elif argv[1] == 'astar' :
-        path, astartime, htime = find_astar_route(source, target)
+        path, astartime = find_astar_route(source, target)
     elif argv[1] == 'idastar' :
         path = find_idastar_route(source, target)
     print(' '.join(str(j) for j in path))
@@ -46,8 +46,9 @@ def dispatch(argv) :
 if __name__ == '__main__' :
     from sys import argv
 
-    #createimg()
-    #uniform_cost_search_100_problems()
-    #astar_search_100_problems(h=huristic_function)
     dispatch(argv)
     # to create 100 pair of s,t run the func create100SearchProblem() in random_search
+    # the implementations of the funcs below are in search_algorithms.py
+    # createimg()
+    # uniform_cost_search_100_problems()
+    # astar_search_100_problems(h=huristic_function)

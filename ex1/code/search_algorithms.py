@@ -85,7 +85,7 @@ def best_first_graph_search_astar(source, target, f, g) :
     while frontier :
         node = frontier.pop()
         if node.junction_inx == target :
-            return node.path(), node.real_path_cost, node.path_cost - node.real_path_cost
+            return node.path(), node.real_path_cost
         closed_list.add(node.junction_inx)
         for child in node.expandastar(roads[node.junction_inx], f, g) :
             if child.junction_inx not in closed_list and child not in frontier :
@@ -110,23 +110,31 @@ def astar_search(source, target, h) :
 
 def astar_search_100_problems(h) :
     file = open('results/AStarRuns.txt', 'w', newline='')
-    # filec = open('results/AStarRuns.csv', 'w', newline='')
-    # writer = csv.writer(filec)
+    #filec = open('results/AStarRuns.csv', 'w', newline='')
+    #writer = csv.writer(filec)
     fileproblem = open('problems.csv', 'r')
     lines = fileproblem.readlines()
     fileproblem.close()
     # i = 0
     for line in lines :
         x = line.split(",")
-        path, astartime, htime = astar_search(int(x[0]), int(x[1].replace("\n", "")), h)
-        newline = ' '.join(str(j) for j in path) + " - " + str(round(astartime, 4)) + " - " + str(round(htime, 4)) + "\n"
-        # row = [str(round(astartime, 4)), str(round(q, 4))]
-        # writer.writerow(row)
+        source = int(x[0])
+        target = int(x[1].replace("\n", ""))
+        path, astartime = astar_search(source, target, h)
+        lat1 = roads[source].lat
+        lat2 = roads[target].lat
+        lon1 = roads[source].lon
+        lon2 = roads[target].lon
+        htime = h(lat1, lon1, lat2, lon2)
+        newline = ' '.join(str(j) for j in path) + " - " + str(round(astartime, 4)) + " - " + str(
+            round(htime, 4)) + "\n"
+        #row = [str(round(astartime, 4)), str(round(htime, 4))]
+        #writer.writerow(row)
         file.write(newline)
-        # print(i)
-        # i += 1
+        #print(i)
+        #i += 1
     file.close()
-    # filec.close()
+    #filec.close()
 
 
 new_limit = -1
